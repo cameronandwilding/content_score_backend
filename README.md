@@ -2,6 +2,12 @@ Content Score Backend
 =====================
 
 
+Setup
+-----
+
+- Set frequent (every ~10-ish minutes) cron to call: ```/cron```
+
+
 # API
 
 Add feed
