@@ -37,9 +37,10 @@ class ContentParseTask {
   public static function parse($url) {
     // @todo replace once G is ready.
     $result = [];
+    $parserServiceUrl = env('PARSER_SERVICE_URL');
     try {
       $client = new Client();
-      $response = $client->request('POST', 'http://edcc3ece.ngrok.io/', ['form_params' => ['url' => $url]]);
+      $response = $client->request('POST', $parserServiceUrl, ['form_params' => ['url' => $url]]);
       $body = (string) $response->getBody();
 
       $json = \GuzzleHttp\json_decode($body);

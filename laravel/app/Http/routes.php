@@ -11,18 +11,27 @@
 |
 */
 
+use App\Content;
+use App\ContentParseTask;
+use App\Feed;
+use App\FeedParseTask;
+use App\Score;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
 Route::get('/', function () {
     return redirect('/api/v1/feed');
 });
 
 Route::get('/api/v1/feed', function () {
-    $feeds = \App\Feed::orderBy('created_at', 'asc')->get();
+    $feeds = Feed::orderBy('created_at', 'asc')->get();
 
-    return new \Illuminate\Http\JsonResponse(['feeds' => $feeds]);
+    return new JsonResponse(['feeds' => $feeds]);
 });
 
-Route::post('/api/v1/feed', function (\Illuminate\Http\Request $request) {
-    $feed = new \App\Feed();
+Route::post('/api/v1/feed', function (Request $request) {
+    $feed = new Feed();
     $feed->url = $request->get('url');
     $feed->updated_at = 0;
     $feed->save();
@@ -30,30 +39,28 @@ Route::post('/api/v1/feed', function (\Illuminate\Http\Request $request) {
     return redirect('/');
 });
 
-Route::get('/api/v1/search/{keyword}', function ($keyword) {
-    $scores = \App\Score::where('keyword', 'LIKE', '%' . $keyword . '%')
+Route::get('/api/v1/search/{keyword}/{count?}', function ($keyword, $count = 10) {
+    $scores = Score::where('keyword', 'LIKE', '%' . $keyword . '%')
       ->groupBy('content_id')
       ->orderBy('weight')
-      ->take(10)
+      ->take($count)
       ->get();
 
     $result = [];
     foreach ($scores as $score) {
-        $content = \App\Content::find($score->content_id);
-        $result[] = (object) [
-          'url' => $content->url,
-        ];
+        $content = Content::find($score->content_id);
+        $result[] = $content;
     }
 
-    return new \Illuminate\Http\JsonResponse(['result' => $result]);
+    return new JsonResponse(['result' => $result]);
 });
 
 Route::get('/api/v1/content/{id}', function ($id) {
-    return new \Illuminate\Http\JsonResponse(['result' => []]);
+    return new JsonResponse(['result' => []]);
 });
 
 Route::get('/cron', function () {
-    \App\FeedParseTask::run();
-    \App\ContentParseTask::run();
-    return new \Illuminate\Http\Response('ok');
+    FeedParseTask::run();
+    ContentParseTask::run();
+    return new Response('ok');
 });
