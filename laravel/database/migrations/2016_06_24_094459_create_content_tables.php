@@ -26,6 +26,8 @@ class CreateContentTables extends Migration
 
             $table->string('url');
 
+            $table->boolean('is_parsed');
+
             $table->timestamps();
         });
 

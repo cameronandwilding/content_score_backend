@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/api/v1/feed');
 });
 
 Route::get('/api/v1/feed', function () {
@@ -38,5 +38,7 @@ Route::get('/api/v1/content/{id}', function ($id) {
 });
 
 Route::get('/cron', function () {
-
+    \App\FeedParseTask::run();
+    \App\ContentParseTask::run();
+    return new \Illuminate\Http\Response('ok');
 });
