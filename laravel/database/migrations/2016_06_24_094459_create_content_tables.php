@@ -20,27 +20,19 @@ class CreateContentTables extends Migration
 
         Schema::create('contents', function (Blueprint $table) {
             $table->increments('id');
-
             $table->integer('feed_id')->unsigned();
             $table->foreign('feed_id')->references('id')->on('feeds');
-
             $table->string('url');
-
             $table->boolean('is_parsed');
-
             $table->timestamps();
         });
 
         Schema::create('scores', function (Blueprint $table) {
             $table->increments('id');
-
             $table->integer('content_id')->unsigned();
             $table->foreign('content_id')->references('id')->on('contents');
-
             $table->string('keyword');
-
             $table->integer('weight');
-
             $table->timestamps();
         });
     }

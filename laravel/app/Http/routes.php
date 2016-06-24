@@ -24,6 +24,7 @@ Route::get('/api/v1/feed', function () {
 Route::post('/api/v1/feed', function (\Illuminate\Http\Request $request) {
     $feed = new \App\Feed();
     $feed->url = $request->get('url');
+    $feed->updated_at = 0;
     $feed->save();
 
     return redirect('/');

@@ -10,8 +10,13 @@ use GuzzleHttp\Client;
 class FeedParseTask {
 
   public static function run() {
-    $feeds = Feed::get();
+    $feeds = Feed::where('updated_at', '<=', date('Y-m-d', strtotime('-2 days')))
+      ->orderBy('updated_at', 'desc')
+      ->take(10)
+      ->get();
     foreach ($feeds as $feed) {
+      $feed->touch();
+
       $client = new Client();
       $response = $client->get($feed->url);
       $body = (string) $response->getBody();
