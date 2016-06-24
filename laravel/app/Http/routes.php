@@ -30,7 +30,7 @@ Route::post('/api/v1/feed', function (\Illuminate\Http\Request $request) {
     return redirect('/');
 });
 
-Route::get('/api/v1/feed/search/{keyword}', function ($keyword) {
+Route::get('/api/v1/search/{keyword}', function ($keyword) {
     $scores = \App\Score::where('keyword', $keyword)
       ->orderBy('weight')
       ->take(10)

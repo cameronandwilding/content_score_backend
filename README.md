@@ -48,7 +48,7 @@ Get a filtered list of content
 ------------------------------
 
 - Type: ```GET```
-- Path: ```/api/v1/feed/search/<KEYWORD>```
+- Path: ```/api/v1/search/<KEYWORD>```
 - Params:
     - ```<KEYWORD>```: string
 - Return type: ```JSON```
