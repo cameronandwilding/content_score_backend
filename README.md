@@ -7,9 +7,9 @@ Content Score Backend
 Add feed
 --------
 
-- *Type*: ```POST```
-- *Path*: ```/api/v1/feed```
-- *Post params*:
+- Type: ```POST```
+- Path: ```/api/v1/feed```
+- Post params:
 
 ```
 url=<FULL RSS URL>
@@ -19,12 +19,12 @@ url=<FULL RSS URL>
 Get all feeds
 -------------
 
-- *Type*: ```GET```
-- *Path*: ```/api/v1/feed```
-- *Return type*: ```JSON```
-- *Return structure*:
+- Type: ```GET```
+- Path: ```/api/v1/feed```
+- Return type: ```JSON```
+- Return structure:
 
-```json
+```
 {
     feeds: [
         {
@@ -39,4 +39,20 @@ Get all feeds
 Get a filtered list of content
 ------------------------------
 
-- *Type*
+- Type: ```GET```
+- Path: ```/api/v1/feed/<KEYWORD>```
+- Params:
+-- ```<KEYWORD>```: string
+- Return type: ```JSON```
+- Return structure:
+
+```
+{
+    'result': [
+        {
+            url: <URL>,
+        },
+        { ... }
+    ]
+}
+```
