@@ -5,6 +5,8 @@
 
 namespace App;
 
+use GuzzleHttp\Client;
+
 class ContentParseTask {
 
   public static function run() {
@@ -34,10 +36,19 @@ class ContentParseTask {
    */
   public static function parse($url) {
     // @todo replace once G is ready.
-    return [
-      new ScoreResponseParam('foo', 3),
-      new ScoreResponseParam('bar', 8),
-    ];
+    $result = [];
+    try {
+      $client = new Client();
+      $response = $client->request('POST', 'http://edcc3ece.ngrok.io/', ['form_params' => ['url' => $url]]);
+      $body = (string) $response->getBody();
+
+      $json = \GuzzleHttp\json_decode($body);
+      foreach ($json as $keyword) {
+        $result[] = new ScoreResponseParam($keyword, 1);
+      }
+    }
+    catch (\Exception $e) { }
+    return $result;
   }
 
 

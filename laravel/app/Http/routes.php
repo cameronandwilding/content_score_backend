@@ -31,7 +31,8 @@ Route::post('/api/v1/feed', function (\Illuminate\Http\Request $request) {
 });
 
 Route::get('/api/v1/search/{keyword}', function ($keyword) {
-    $scores = \App\Score::where('keyword', $keyword)
+    $scores = \App\Score::where('keyword', 'LIKE', '%' . $keyword . '%')
+      ->groupBy('content_id')
       ->orderBy('weight')
       ->take(10)
       ->get();
