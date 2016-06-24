@@ -30,7 +30,20 @@ Route::post('/api/v1/feed', function (\Illuminate\Http\Request $request) {
 });
 
 Route::get('/api/v1/feed/{keyword}', function ($keyword) {
-    return new \Illuminate\Http\JsonResponse(['result' => []]);
+    $scores = \App\Score::where('keyword', $keyword)
+      ->orderBy('weight')
+      ->take(10)
+      ->get();
+
+    $result = [];
+    foreach ($scores as $score) {
+        $content = \App\Content::find($score->content_id);
+        $result[] = (object) [
+          'url' => $content->url,
+        ];
+    }
+
+    return new \Illuminate\Http\JsonResponse(['result' => $result]);
 });
 
 Route::get('/api/v1/content/{id}', function ($id) {
