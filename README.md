@@ -30,7 +30,9 @@ Get all feeds
         {
             url: <URL>,
         },
-        { ... }
+        {
+            ...
+        }
     ]
 }
 ```
@@ -52,7 +54,9 @@ Get a filtered list of content
         {
             url: <URL>,
         },
-        { ... }
+        {
+            ...
+        }
     ]
 }
 ```
